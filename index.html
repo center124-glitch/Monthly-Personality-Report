@@ -209,7 +209,29 @@ body {
   backdrop-filter: blur(14px);
   transition: background 0.3s, border 0.3s;
 }
-.ctrl-l, .ctrl-r { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ctrl-l, .ctrl-l { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ctrl-r { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ── Responsive header: สมดุลทุกขนาดจอ ── */
+@media (max-width: 860px) {
+  .ctrl { justify-content: center; gap: 10px; }
+  .ctrl-l, .ctrl-r { width: 100%; justify-content: center; }
+}
+@media (max-width: 520px) {
+  .ctrl { padding: 10px 12px; gap: 8px; }
+  /* ปุ่มเรียง 2 ต่อแถว กว้างเท่ากัน ดูเป็นระเบียบบนมือถือ */
+  .ctrl-l .btn, .ctrl-l .btn-file,
+  .ctrl-r .btn, .ctrl-r .btn-theme {
+    flex: 1 1 calc(50% - 8px);
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 11px 8px; font-size: 12px; white-space: nowrap;
+  }
+  .pill { flex-basis: 100%; text-align: center; }
+}
+@media (max-width: 340px) {
+  .ctrl-l .btn, .ctrl-l .btn-file,
+  .ctrl-r .btn, .ctrl-r .btn-theme { flex-basis: 100%; }  /* จอเล็กมาก → 1 ต่อแถว */
+}
 
 .btn-file {
   display: inline-flex; align-items: center; gap: 7px;
@@ -2318,8 +2340,8 @@ setActionsEnabled(false);
    GOOGLE SHEETS LIVE — ดึงข้อมูลรายเดือนจากชีตเดียวกัน
    แก้ URL ที่ SHEETS_API ที่เดียว (ลงท้าย /exec)
 ════════════════════════════════════════════════════════════════ */
-let SHEETS_API = 'https://script.google.com/macros/s/AKfycbxOZWoargrxrlBa-Cp1ueu0rh6Xb6Sw8I8CFo1PY2upG_XawC6GosN5BuQ97m2XPWpw/exec';
-try { const _u = localStorage.getItem('sbk_sheets_api_v2'); if (_u && /\/exec/.test(_u)) SHEETS_API = _u; } catch (e) {}
+let SHEETS_API = 'https://script.google.com/macros/s/AKfycbxZgPpmjzIit-V7sb0MOEnTIVUf5WGATkhJJGBGyccTjeko6ClknxEYmwIc5JYSkl3u/exec';
+try { const _u = localStorage.getItem('sbk_sheets_api_v3'); if (_u && /\/exec/.test(_u)) SHEETS_API = _u; } catch (e) {}
 
 /* แผงวิเคราะห์ปัญหาการเชื่อมต่อ */
 function showDiagPanel(err) {
@@ -2347,7 +2369,7 @@ function showDiagPanel(err) {
     const u = prompt('วาง URL /exec ปัจจุบันของ Apps Script:', url);
     if (u && /^https:\/\/script\.google\.com\/macros\/s\/.+\/exec/.test(u.trim())) {
       SHEETS_API = u.trim();
-      try { localStorage.setItem('sbk_sheets_api_v2', SHEETS_API); } catch (e) {}
+      try { localStorage.setItem('sbk_sheets_api_v3', SHEETS_API); } catch (e) {}
       p.remove(); loadFromSheets();
     } else if (u) { alert('URL ไม่ถูกต้อง ต้องลงท้ายด้วย /exec'); }
   };
